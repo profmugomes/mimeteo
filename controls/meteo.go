@@ -1,7 +1,7 @@
-// Copyright (C) 2026 Murilo Gomes Julio
-// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (c) 2026 Murilo Gomes <profmugomes.com.br>. All Rights Reserved.
 
-// Site: https://mugomes.github.io
+// Licensed under the PolyForm Strict License 1.0.0.
+// See LICENSE.md for details.
 
 package controls
 
@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func BuscarClima(lat, lon string) (map[string]interface{}, error) {
+func BuscarClima(lat, lon string) (map[string]any, error) {
 	sURL := fmt.Sprintf(
 		"https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current_weather=true&hourly=temperature_2m,precipitation,snowfall&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=auto",
 		lat,
@@ -30,7 +30,7 @@ func BuscarClima(lat, lon string) (map[string]interface{}, error) {
 		return nil, fmt.Errorf("erro Open-Meteo: %s", resp.Status)
 	}
 
-	var data map[string]interface{}
+	var data map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
 		return nil, err
 	}
@@ -38,8 +38,8 @@ func BuscarClima(lat, lon string) (map[string]interface{}, error) {
 	return data, nil
 }
 
-func ClimaAtual(data map[string]interface{}) []string {
-	current, ok := data["current_weather"].(map[string]interface{})
+func ClimaAtual(data map[string]any) []string {
+	current, ok := data["current_weather"].(map[string]any)
 	if !ok {
 		return []string{"Indisponível"}
 	}
@@ -51,15 +51,15 @@ func ClimaAtual(data map[string]interface{}) []string {
 	return []string{time, strconv.FormatFloat(temp, 'f', 2, 64) + " °C", strconv.FormatFloat(wind, 'f', 2, 64) + " mm\n"}
 }
 
-func PrevisaoHoraria(data map[string]interface{}, hours int) string {
-	hourly, ok := data["hourly"].(map[string]interface{})
+func PrevisaoHoraria(data map[string]any, hours int) string {
+	hourly, ok := data["hourly"].(map[string]any)
 	if !ok {
 		return "Previsão horária indisponível"
 	}
 
-	times, _ := hourly["time"].([]interface{})
-	temps, _ := hourly["temperature_2m"].([]interface{})
-	rain, _ := hourly["precipitation"].([]interface{})
+	times, _ := hourly["time"].([]any)
+	temps, _ := hourly["temperature_2m"].([]any)
+	rain, _ := hourly["precipitation"].([]any)
 
 	var b strings.Builder
 	b.WriteString("⏱ Previsão horária:\n")
@@ -76,17 +76,17 @@ func PrevisaoHoraria(data map[string]interface{}, hours int) string {
 	return b.String()
 }
 
-func PrevisaoDiaria(data map[string]interface{}, days int) ([]string, string) {
-	daily, ok := data["daily"].(map[string]interface{})
+func PrevisaoDiaria(data map[string]any, days int) ([]string, string) {
+	daily, ok := data["daily"].(map[string]any)
 	if !ok {
 		return nil, "Previsão diária indisponível"
 	}
 
-	dates := daily["time"].([]interface{})
-	max := daily["temperature_2m_max"].([]interface{})
-	min := daily["temperature_2m_min"].([]interface{})
-	rain := daily["precipitation_sum"].([]interface{})
-	snow := daily["snowfall_sum"].([]interface{})
+	dates := daily["time"].([]any)
+	max := daily["temperature_2m_max"].([]any)
+	min := daily["temperature_2m_min"].([]any)
+	rain := daily["precipitation_sum"].([]any)
+	snow := daily["snowfall_sum"].([]any)
 
 	var c []string
 	for i := 0; i < days && i < len(dates); i++ {
@@ -103,7 +103,7 @@ func PrevisaoDiaria(data map[string]interface{}, days int) ([]string, string) {
 	return c, ""
 }
 
-func ResumoClima(data map[string]interface{}) string {
+func ResumoClima(data map[string]any) string {
 	current := ClimaAtual(data)
 	hourly := PrevisaoHoraria(data, 6)
 	daily, _ := PrevisaoDiaria(data, 5)

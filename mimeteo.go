@@ -1,7 +1,7 @@
-// Copyright (C) 2026 Murilo Gomes Julio
-// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (c) 2026 Murilo Gomes <profmugomes.com.br>. All Rights Reserved.
 
-// Site: https://mugomes.github.io
+// Licensed under the PolyForm Strict License 1.0.0.
+// See LICENSE.md for details.
 
 package main
 
@@ -15,23 +15,25 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	c "mugomes/mimeteo/controls"
+	c "profmugomes/mimeteo/controls"
 
-	"github.com/mugomes/mgcolumnview"
-	"github.com/mugomes/mgsettings/v3"
-	"github.com/mugomes/mgsmartflow"
+	"github.com/profmugomes/mgcolumnview/v2"
+	"github.com/profmugomes/mgsettings/v4"
+	"github.com/profmugomes/mgsmartflow/v2"
 )
 
-const VERSION_APP = "1.0.0"
+const VERSION_APP = "2.0.0"
+
+var a fyne.App
 
 func main() {
 	sIcon := fyne.NewStaticResource("mimeteo.png", resourceIconPngData)
 
-	app := app.NewWithID("mg.mimeteo")
-	app.Settings().SetTheme(&myDarkTheme{})
-	app.SetIcon(sIcon)
+	a = app.NewWithID("br.com.profmugomes.mimeteo")
+	a.Settings().SetTheme(&darkTheme{})
+	a.SetIcon(sIcon)
 
-	frmMain := app.NewWindow("MiMeteo")
+	frmMain := a.NewWindow("MiMeteo")
 	frmMain.CenterOnScreen()
 	frmMain.SetFixedSize(true)
 	frmMain.Resize(fyne.NewSize(600, 400))
@@ -39,18 +41,18 @@ func main() {
 	mnuSobre := fyne.NewMenu("Sobre",
 		fyne.NewMenuItem(
 			"Verificar Atualização", func() {
-				sURL, _ := url.Parse("https://github.com/mugomes/mimeteo/releases")
-				app.OpenURL(sURL)
+				sURL, _ := url.Parse("https://github.com/profmugomes/mimeteo/releases")
+				a.OpenURL(sURL)
 			},
 		),
 		fyne.NewMenuItem(
-			"Apoie MiMeteo", func() {
-				sURL, _ := url.Parse("https://mugomes.github.io/apoie.html")
-				app.OpenURL(sURL)
+			"Comprar Licença", func() {
+				sURL, _ := url.Parse("https:///profmugomes.com.br/#contato")
+				a.OpenURL(sURL)
 			},
 		),
 		fyne.NewMenuItem("Sobre MiMeteo", func() {
-			showAbout(app)
+			showAbout()
 		}),
 	)
 

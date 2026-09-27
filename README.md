@@ -1,31 +1,54 @@
 # MiMeteo
 
+[![License](https://img.shields.io/badge/license-PolyForm%20Strict%201.0.0-5351FB)](LICENSE.md)
+
 MiMeteo é um software para ver a previsão do tempo no Brasil.
 
 ---
 
-## 🖥️ Sistemas Operacionais 64 bits
+## 🧩 System Requirement
 
-* ✔️ Linux
-* ✔️ Windows
-* Requer GPU com suporte OpenGL (requerer aceleração 3D)
+### Linux
+
+ - Ubuntu 26.04 or higher
+ - Graphics: GPU with OpenGL support (required for 3D acceleration)
+
+### Windows
+
+- Windows 10 or higher
+- Graphics: GPU with OpenGL support (required for 3D acceleration)
 
 ---
 
-## 👤 Desenvolvedor
+## 👤 Author
 
 **Murilo Gomes Julio**
 
-🔗 [https://mugomes.github.io](https://mugomes.github.io)
+🔗 [https://www.profmugomes.com.br](https://www.profmugomes.com.br)
 
-📺 [https://youtube.com/@mugomesoficial](https://youtube.com/@mugomesoficial)
+📺 [https://youtube.com/@profmugomes](https://youtube.com/@profmugomes)
+
+---
 
 ## License
 
-The MiMeteo is provided under:
+Copyright (c) 2026 Murilo Gomes <profmugomes.com.br>. All Rights Reserved.
 
-[SPDX-License-Identifier: GPL-2.0-only](https://github.com/mugomes/mimeteo/blob/main/LICENSE)
+This project is licensed under the PolyForm Strict License 1.0.0.
 
-Beign under the terms of the GNU General Public License version 2 only.
+### Summary
 
-All contributions to the MiMeteo are subject to this license.
+This software is available for noncommercial use only.
+
+You may:
+- ✔ Use the software for noncommercial purposes.
+- ✔ Inspect and study the source code.
+
+You may not:
+- ✖ Use the software for commercial purposes.
+- ✖ Modify the software.
+- ✖ Redistribute the software.
+
+See the full license terms at [LICENSE.md](LICENSE.md).
+
+This summary is provided for convenience only.

@@ -1,7 +1,7 @@
-// Copyright (C) 2026 Murilo Gomes Julio
-// SPDX-License-Identifier: GPL-2.0-only
+// Copyright (c) 2026 Murilo Gomes <profmugomes.com.br>. All Rights Reserved.
 
-// Site: https://mugomes.github.io
+// Licensed under the PolyForm Strict License 1.0.0.
+// See LICENSE.md for details.
 
 package controls
 
@@ -23,7 +23,7 @@ func ListarEstados() ([]string, error) {
 		return nil, fmt.Errorf("erro IBGE: %s", resp.Status)
 	}
 
-	var estados []map[string]interface{}
+	var estados []map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&estados); err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func ListarMunicipiosPorUF(uf string) ([]string, error) {
 		return nil, fmt.Errorf("erro IBGE: %s", resp.Status)
 	}
 
-	var raw []map[string]interface{}
+	var raw []map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&raw); err != nil {
 		return nil, err
 	}
@@ -71,7 +71,6 @@ func ListarMunicipiosPorUF(uf string) ([]string, error) {
 
 	return municipios, nil
 }
-
 
 func BuscarLocalizacaoPorNome(nome, uf string) (string, string, error) {
 	listURL := fmt.Sprintf(
@@ -106,7 +105,7 @@ func BuscarLocalizacaoPorNome(nome, uf string) (string, string, error) {
 		return "", "", fmt.Errorf("município %s/%s não encontrado", nome, uf)
 	}
 
-    coordsURL := fmt.Sprintf(
+	coordsURL := fmt.Sprintf(
 		"https://servicodados.ibge.gov.br/api/v3/malhas/municipios/%d/metadados",
 		municipioID,
 	)
