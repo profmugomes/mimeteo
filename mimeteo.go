@@ -1,6 +1,6 @@
 // Copyright (c) 2026 Murilo Gomes <profmugomes.com.br>. All Rights Reserved.
 
-// Licensed under the PolyForm Strict License 1.0.0.
+// Licensed under the PolyForm Perimeter License 1.0.1.
 // See LICENSE.md for details.
 
 package main
@@ -46,8 +46,8 @@ func main() {
 			},
 		),
 		fyne.NewMenuItem(
-			"Comprar Licença", func() {
-				sURL, _ := url.Parse("https:///profmugomes.com.br/#contato")
+			"Apoie MiMeteo", func() {
+				sURL, _ := url.Parse("https:///github.com/sponsors/profmugomes")
 				a.OpenURL(sURL)
 			},
 		),
@@ -93,9 +93,6 @@ func main() {
 
 	cboEstado.SetSelected(config.GetString("estado", ""))
 	cboCidade.SetSelected(config.GetString("cidade", ""))
-
-	// var lblResult *widget.Label
-	// lblResult = widget.NewLabel("")
 
 	cvTempAtual := mgcolumnview.NewColumnView(
 		[]string{"Horário", "Temperatura", "Vento"},
