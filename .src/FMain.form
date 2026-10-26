@@ -1,0 +1,46 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,77,68)
+  Font = Font["12"]
+  Text = ("MiMeteo")
+  Resizable = False
+  { Menu1 Menu
+    Text = ("Sobre")
+  }
+  { Label1 Label
+    MoveScaled(1,1,17,4)
+    Font = Font["Bold"]
+    Text = ("Estado")
+  }
+  { cboEstado ComboBox
+    MoveScaled(1,5,37,5)
+  }
+  { cboCidade ComboBox
+    MoveScaled(39,5,37,5)
+  }
+  { Label2 Label
+    MoveScaled(39,1,17,4)
+    Font = Font["Bold"]
+    Text = ("Cidade")
+  }
+  { btnVerificar Button
+    MoveScaled(31,14,15,4)
+    Text = ("Verificar")
+  }
+  { TabStrip1 TabStrip
+    MoveScaled(1,21,75,42)
+    Count = 2
+    Index = 0
+    Text = ("Temperatura Atual")
+    { cv1 ColumnView
+      MoveScaled(1,1,73,36)
+    }
+    Index = 1
+    Text = ("Temperatura (Próximos Dias)")
+    { cv2 ColumnView
+      MoveScaled(1,1,73,36)
+    }
+    Index = 0
+  }
+}

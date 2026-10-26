@@ -1,0 +1,58 @@
+' Gambas class file
+
+
+Public Sub Form_Open()
+
+  Dim lstEstados As Variant = modIBGE.getListaEstados()
+  
+  cv1.Columns.Count = 3
+  cv1.Columns[0].Text = "Horário"
+  cv1.Columns[1].Text = "Temperatura"
+  cv1.Columns[2].Text = "Vento"
+  cv1.Header = True
+  
+  cv2.Columns.Count = 4
+  cv2.Columns[0].Text = "Horário"
+  cv2.Columns[1].Text = "Temperatura"
+  cv2.Columns[2].Text = "Vento"
+  cv2.Columns[3].Text = "Neve"
+  cv2.Header = True
+    
+  If TypeOf(lstEstados) = gb.Object Then 
+    For Each estado As Collection In lstEstados
+      cboEstado.Add(Subst("&1 - &2", estado["sigla"], estado["nome"]))
+    Next
+  Endif
+
+End
+
+Private aCidades As Collection
+
+Public Sub cboEstado_Change()
+
+  Dim estado As String[] = Split(cboEstado.Text, " - ")
+  Dim lstCidades As Variant = modIBGE.getListaCidades(estado[0])
+  aCidades = New Collection
+  
+  cboCidade.Clear()
+  
+  If TypeOf(lstCidades) = gb.Object Then 
+    For Each cidade As Collection In lstCidades 
+      cboCidade.Add(cidade["nome"])
+      aCidades.Add(cidade["id"], cidade["nome"])
+    Next
+  Endif
+End
+
+Public Sub btnVerificar_Click()
+
+  Dim coords As String[] = modIBGE.getLocalizacao(aCidades[cboCidade.Text])
+  Dim clima As String[] = modMeteo.ClimaAtual(modMeteo.getBuscarClima(coords[0], coords[1]))
+  
+  cv1.Clear()
+  cv2.Clear()
+  
+  cv1.Add(clima[0], clima[0] & Space(10))
+  cv1[clima[0]][1] = clima[1]
+  cv1[clima[0]][2] = clima[2]
+End

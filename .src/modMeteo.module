@@ -1,0 +1,75 @@
+' Gambas module file
+
+Public Function getBuscarClima(lat As String, lon As String) As Variant
+  
+  Dim sBuffer As String
+  Dim c As New HttpClient
+  
+  c.URL = Subst("https://api.open-meteo.com/v1/forecast?latitude=&1&longitude=&2&current_weather=true&hourly=temperature_2m,precipitation,snowfall&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=auto", lat, lon)
+  c.Async = False
+  c.Timeout = 60
+  Try c.Get()
+  
+  If Lof(c) Then sBuffer = Read #c, Lof(c)
+  
+  If sBuffer = "" Then 
+    Message.Error("Não foi possível se comunicar com a API do IBGE!")
+  Endif
+  
+  c.Close()
+  
+  Return JSON.Decode(sBuffer)
+  
+End
+
+Public Function ClimaAtual(data As Variant) As String[]
+  
+  Dim current As Variant = data["current_weather"]
+  
+  If TypeOf(current) <> gb.Object Then 
+    Message.Error("Indisponível")
+  Endif
+  
+  Dim clima As New String[]
+  Dim sData As String = Replace(current["time"], "T", " ")
+  sData = Mid(sData, 9, 2) & "/" & Mid(sData, 6, 2) & "/" & Left(sData, 4)
+
+  System.Language = "C"
+  
+  clima.Add(sData)
+  clima.Add(Format(current["temperature"], "0.00") & " °C")
+  clima.Add(Format(current["windspeed"], "0.00") & " mm")
+  
+  Return clima
+  
+End
+
+Public Function PrevisaoHoraria(data As Variant, hours As Integer) As String 
+  
+  Dim hourly As Variant = data["hourly"]
+  
+  If TypeOf(hourly) <> gb.Object Then 
+    Message.Error("Previsão horária indisponível!")
+  Endif
+  
+  Dim times As String = hourly["time"]
+  Dim temps As String = hourly["temperature_2m"]
+  Dim rain As String = hourly["precipitation"]
+  
+  For i As Integer = 0 To i < Len(times)
+    i += 1
+  Next
+  
+End
+
+Public Function ResumoClima(data As Variant) As String 
+
+  Dim hourly As String
+  
+  hourly = PrevisaoHoraria(data, 6)
+  
+  Return Subst()
+  
+End
+
+

@@ -1,0 +1,16 @@
+# Gambas Project File 3.0
+Title=MiMeteo
+Startup=FMain
+Version=0.0.2
+Component=gb.image
+Component=gb.net
+Component=gb.util.web
+Component=gb.gtk3
+Component=gb.net.curl
+Component=gb.form
+Authors="Murilo Gomes <profmugomes@gmail.com>"
+TabSize=2
+Language=pt_BR
+Vendor=profmugomes
+AppId=br.com.profmugomes.mimeteo
+Packager=1
