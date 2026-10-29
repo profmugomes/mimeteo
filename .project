@@ -1,13 +1,16 @@
 # Gambas Project File 3.0
 Title=MiMeteo
 Startup=FMain
-Version=0.0.2
+Icon=mimeteo.png
+Version=3.0.2
 Component=gb.image
 Component=gb.net
+Component=gb.settings
 Component=gb.util.web
 Component=gb.gtk3
 Component=gb.net.curl
 Component=gb.form
+Description="MiMeteo é um software para ver a previsão do tempo no Brasil.\nThe MiMeteo is under license GPL-2.0-only"
 Authors="Murilo Gomes <profmugomes@gmail.com>"
 TabSize=2
 Language=pt_BR
