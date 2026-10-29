@@ -4,9 +4,18 @@
   MoveScaled(0,0,77,68)
   Font = Font["12"]
   Text = ("MiMeteo")
+  Icon = Picture["mimeteo.png"]
   Resizable = False
   { Menu1 Menu
     Text = ("Sobre")
+    { mnuSupport Menu
+      Text = ("Apoie MiMeteo")
+    }
+    { Menu3 Menu
+    }
+    { mnuAbout Menu
+      Text = ("Sobre MiMeteo")
+    }
   }
   { Label1 Label
     MoveScaled(1,1,17,4)
@@ -15,9 +24,13 @@
   }
   { cboEstado ComboBox
     MoveScaled(1,5,37,5)
+    ReadOnly = True
+    Sorted = True
   }
   { cboCidade ComboBox
     MoveScaled(39,5,37,5)
+    ReadOnly = True
+    Sorted = True
   }
   { Label2 Label
     MoveScaled(39,1,17,4)

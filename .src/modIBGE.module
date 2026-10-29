@@ -1,5 +1,10 @@
 ' Gambas module file
 
+' Copyright (C) 2026 Murilo Gomes <profmugomes.com.br>
+' SPDX-License-Identifier: GPL-2.0-only
+
+' Site: https://www.profmugomes.com.br
+
 Public Function getListaEstados() As Variant
   
   Dim sBuffer As String

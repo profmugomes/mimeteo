@@ -1,5 +1,10 @@
 ' Gambas module file
 
+' Copyright (C) 2026 Murilo Gomes <profmugomes.com.br>
+' SPDX-License-Identifier: GPL-2.0-only
+
+' Site: https://www.profmugomes.com.br
+
 Public Function getBuscarClima(lat As String, lon As String) As Variant
   
   Dim sBuffer As String
@@ -44,32 +49,32 @@ Public Function ClimaAtual(data As Variant) As String[]
   
 End
 
-Public Function PrevisaoHoraria(data As Variant, hours As Integer) As String 
+Public Function PrevisaoDiaria(data As Variant, days As Integer) As String[]
   
-  Dim hourly As Variant = data["hourly"]
+  Dim daily As Variant = data["daily"]
+  Dim i As Integer
   
-  If TypeOf(hourly) <> gb.Object Then 
-    Message.Error("Previsão horária indisponível!")
+  If TypeOf(daily) <> gb.Object Then 
+    Message.Error("Previsão diária indisponível!")
   Endif
   
-  Dim times As String = hourly["time"]
-  Dim temps As String = hourly["temperature_2m"]
-  Dim rain As String = hourly["precipitation"]
+  Dim dates As Variant[] = daily["time"]
+  Dim max As Variant[] = daily["temperature_2m_max"]
+  Dim min As Variant[] = daily["temperature_2m_min"]
+  Dim rain As Variant[] = daily["precipitation_sum"]
+  Dim snow As Variant[] = daily["snowfall_sum"]
   
-  For i As Integer = 0 To i < Len(times)
-    i += 1
+  Dim sResult As New String[]
+  
+  For i = 0 To days - 1
+    If i >= dates.Count Then Break 
+    
+    System.Language = "C"
+  
+    sResult.Add(Subst("&1|&2|&3|&4|&5", Mid(dates[i], 9, 2) & "/" & Mid(dates[i], 6, 2) & "/" & Left(dates[i], 4), Format(max[i], "0.00") & " °C", Format(min[i], "0.00") & " °C", Format(rain[i], "0.00") & " mm", Format(snow[i], "0.00") & " mm"))
   Next
   
-End
-
-Public Function ResumoClima(data As Variant) As String 
-
-  Dim hourly As String
-  
-  hourly = PrevisaoHoraria(data, 6)
-  
-  Return Subst()
+  Return sResult
   
 End
-
 

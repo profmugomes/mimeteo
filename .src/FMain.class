@@ -1,19 +1,32 @@
 ' Gambas class file
 
+' Copyright (C) 2026 Murilo Gomes <profmugomes.com.br>
+' SPDX-License-Identifier: GPL-2.0-only
+
+' Site: https://www.profmugomes.com.br
+
+Private Sub AtivaDesativa()
+  
+  cboEstado.Enabled = Not cboEstado.Enabled
+  cboCidade.Enabled = Not cboCidade.Enabled
+  btnVerificar.Enabled = Not btnVerificar.Enabled
+  
+End
+
 
 Public Sub Form_Open()
 
   Dim lstEstados As Variant = modIBGE.getListaEstados()
   
   cv1.Columns.Count = 3
-  cv1.Columns[0].Text = "Horário"
+  cv1.Columns[0].Text = "Dia"
   cv1.Columns[1].Text = "Temperatura"
   cv1.Columns[2].Text = "Vento"
   cv1.Header = True
   
   cv2.Columns.Count = 4
-  cv2.Columns[0].Text = "Horário"
-  cv2.Columns[1].Text = "Temperatura"
+  cv2.Columns[0].Text = "Dias"
+  cv2.Columns[1].Text = "Temperatura"  
   cv2.Columns[2].Text = "Vento"
   cv2.Columns[3].Text = "Neve"
   cv2.Header = True
@@ -23,12 +36,14 @@ Public Sub Form_Open()
       cboEstado.Add(Subst("&1 - &2", estado["sigla"], estado["nome"]))
     Next
   Endif
-
+  
+  cboEstado.Text = Settings["estado"]
+  cboCidade.Text = Settings["cidade"]
 End
 
 Private aCidades As Collection
 
-Public Sub cboEstado_Change()
+Public Sub cboEstado_Click()
 
   Dim estado As String[] = Split(cboEstado.Text, " - ")
   Dim lstCidades As Variant = modIBGE.getListaCidades(estado[0])
@@ -42,12 +57,18 @@ Public Sub cboEstado_Change()
       aCidades.Add(cidade["id"], cidade["nome"])
     Next
   Endif
+  
+  Settings["estado"] = cboEstado.Text
+  Settings.Save()
 End
 
 Public Sub btnVerificar_Click()
 
+  AtivaDesativa()
+  
   Dim coords As String[] = modIBGE.getLocalizacao(aCidades[cboCidade.Text])
   Dim clima As String[] = modMeteo.ClimaAtual(modMeteo.getBuscarClima(coords[0], coords[1]))
+  Dim previsaoDiaria As String[] = modMeteo.PrevisaoDiaria(modMeteo.getBuscarClima(coords[0], coords[1]), 5)
   
   cv1.Clear()
   cv2.Clear()
@@ -55,4 +76,45 @@ Public Sub btnVerificar_Click()
   cv1.Add(clima[0], clima[0] & Space(10))
   cv1[clima[0]][1] = clima[1]
   cv1[clima[0]][2] = clima[2]
+  
+  Dim part As String[]
+  For Each previsao As String In previsaoDiaria
+
+    part = Split(previsao, "|")
+    
+    cv2.Add(part[0], part[0] & Space(10))
+    cv2[part[0]][1] = part[1] & " / " & part[2] & Space(10)
+    cv2[part[0]][2] = part[3] & Space(10)
+    cv2[part[0]][3] = part[4]
+  Next
+  
+  AtivaDesativa()
+End
+
+Public Sub cboCidade_Click()
+
+  Settings["cidade"] = cboCidade.Text
+  Settings.Save()
+
+End
+
+Public Sub Form_Close()
+
+  Quit 0
+
+End
+
+
+Public Sub mnuSupport_Click()
+
+  Dim sResult As String
+  
+  Shell "xdg-open \"https://github.com/sponsors/profmugomes\"" To sResult
+
+End
+
+Public Sub mnuAbout_Click()
+
+  FAbout.ShowDialog()
+
 End
