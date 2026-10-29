@@ -1,6 +1,6 @@
 # MiMeteo
 
-MiMeteo é um software para ver a previsão do tempo no Brasil.
+MiMeteo é um software para ver a previsão do tempo no Brasil através das APIs do IBGE e Open-Meteo.
 
 ## Information
 
