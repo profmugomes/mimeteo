@@ -1,3 +1,7 @@
+* Wed Oct 28 2026 Murilo Gomes <profmugomes@gmail.com> 3.0.6
+- Adicionado recurso de cache para os estados, cidades e metadados.
+- Adicionado recurso para exibir uma barra de progresso com animação para mostrar o andamento da verificação com o Open-Meteo.
+
 * Wed Oct 28 2026 Murilo Gomes <profmugomes@gmail.com> 3.0.3
 - Migrado para a linguagem de programação Gambas3.
 
