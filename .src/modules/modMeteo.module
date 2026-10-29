@@ -5,23 +5,18 @@
 
 ' Site: https://www.profmugomes.com.br
 
+Private hTask As TaskGet
+Private sBuffer As String
+
 Public Function getBuscarClima(lat As String, lon As String) As Variant
   
-  Dim sBuffer As String
-  Dim c As New HttpClient
-  
-  c.URL = Subst("https://api.open-meteo.com/v1/forecast?latitude=&1&longitude=&2&current_weather=true&hourly=temperature_2m,precipitation,snowfall&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=auto", lat, lon)
-  c.Async = False
-  c.Timeout = 60
-  Try c.Get()
-  
-  If Lof(c) Then sBuffer = Read #c, Lof(c)
+  hTask = New TaskGet(Subst("https://api.open-meteo.com/v1/forecast?latitude=&1&longitude=&2&current_weather=true&hourly=temperature_2m,precipitation,snowfall&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=auto", lat, lon))
+  Object.Attach(hTask, Me, "hTask")
+  hTask.Wait()
   
   If sBuffer = "" Then 
-    Message.Error("Não foi possível se comunicar com a API do IBGE!")
+    Message.Error("Não foi possível se comunicar com a API do Open-Meteo.")
   Endif
-  
-  c.Close()
   
   Return JSON.Decode(sBuffer)
   
@@ -76,5 +71,15 @@ Public Function PrevisaoDiaria(data As Variant, days As Integer) As String[]
   
   Return sResult
   
+End
+
+Public Sub hTask_Kill()
+  sBuffer = hTask.Value
+
+  If sBuffer = "" Then
+    Message.Error("Não foi possível obter os estados!")
+    Return
+  Endif
+
 End
 

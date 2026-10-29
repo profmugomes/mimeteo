@@ -1,0 +1,26 @@
+' Gambas class file
+
+Inherits Task
+
+Public aURL As String
+
+Public Sub _new(sURL As String)
+  Me.aURL = sURL
+End
+
+Public Function Main() As Variant
+  Dim c As New HttpClient
+  Dim sBuffer As String
+
+  c.URL = aURL
+  c.Async = False
+  c.Timeout = 60
+
+  Try c.Get()
+
+  If Lof(c) Then sBuffer = Read #c, Lof(c)
+
+  c.Close()
+
+  Return sBuffer
+End

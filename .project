@@ -2,7 +2,7 @@
 Title=MiMeteo
 Startup=FMain
 Icon=mimeteo.png
-Version=3.0.6
+Version=3.0.10
 Component=gb.image
 Component=gb.net
 Component=gb.settings
