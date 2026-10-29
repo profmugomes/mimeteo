@@ -4,7 +4,6 @@ Private Depth As Integer
     
 Private Function Clean_Directories_From(Path As String) As Boolean
 
-  Dim Directory As String
   Dim DirectoryList As String[]
   Dim HadError As Boolean
 
@@ -12,7 +11,7 @@ Private Function Clean_Directories_From(Path As String) As Boolean
 
   DirectoryList = Dir(Path, Null, gb.Directory)
 
-  For Each Directory In DirectoryList
+  For Each Directory As String In DirectoryList
     Directory = Path &/ Directory
 
     If Exist(Directory) Then Try Rmdir Directory
@@ -37,7 +36,6 @@ Private Function Clean_Directories_From(Path As String) As Boolean
 End
 
 Private Function Clean_Files_From(Path As String) As Boolean
-  Dim File As String
   Dim FileList As String[]
   Dim HadError As Boolean
 
@@ -45,13 +43,13 @@ Private Function Clean_Files_From(Path As String) As Boolean
 
   FileList = Dir(Path, Null, gb.File)
 
-  For Each File In FileList
-    File = Path &/ File
+  For Each Filename As String In FileList
+    Filename = Path &/ Filename
     
-    Try Kill File
+    Try Kill Filename
 
     If Error And Error.Code = 43 Then
-      Message.Warning(Subst(("Access forbiden. You can't access &1"), File))
+      Message.Warning(Subst(("Access forbiden. You can't access &1"), Filename))
     Else If Error Then
       Message.Error(Error.Code & " - " & Error.Text)
       HadError = True
