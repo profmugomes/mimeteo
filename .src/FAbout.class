@@ -12,3 +12,9 @@ Public Sub URLLabel1_Click()
   Shell "xdg-open \"https://www.profmugomes.com.br\"" To sTerm
   
 End
+
+Public Sub Form_Open()
+
+  lblVersion.Text = Replace(lblVersion.Text, "{version}", Application.Version)
+
+End
