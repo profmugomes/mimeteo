@@ -1,0 +1,96 @@
+' Gambas module file
+
+Private Depth As Integer
+    
+Private Function Clean_Directories_From(Path As String) As Boolean
+
+  Dim Directory As String
+  Dim DirectoryList As String[]
+  Dim HadError As Boolean
+
+  If Not Exist(Path) Then Return False
+
+  DirectoryList = Dir(Path, Null, gb.Directory)
+
+  For Each Directory In DirectoryList
+    Directory = Path &/ Directory
+
+    If Exist(Directory) Then Try Rmdir Directory
+
+    If Error And Error.Code = 43 Then
+      Message.Warning(Subst(("Access forbiden. You can't access &1"), Directory))
+    Else If Error And Error.Code = 42 Or Error.Code = 70 Then
+      Execute(Directory)
+
+      Rmdir Directory
+    Else If Error And Error.Code = 49 Then 'symbolic links
+      Try Kill Directory
+    Else If Error Then
+      Message.Error(Error.Code & " - " & Error.Text)
+      HadError = True
+    Endif
+  Next
+
+  If HadError Then Return False
+
+  Return True
+End
+
+Private Function Clean_Files_From(Path As String) As Boolean
+  Dim File As String
+  Dim FileList As String[]
+  Dim HadError As Boolean
+
+  If Not Exist(Path) Then Return False
+
+  FileList = Dir(Path, Null, gb.File)
+
+  For Each File In FileList
+    File = Path &/ File
+    
+    Try Kill File
+
+    If Error And Error.Code = 43 Then
+      Message.Warning(Subst(("Access forbiden. You can't access &1"), File))
+    Else If Error Then
+      Message.Error(Error.Code & " - " & Error.Text)
+      HadError = True
+    Endif
+  Next
+
+  If HadError Then Return False
+
+  Return True
+End
+
+Public Function Clean(Path As String, Optional CleanRoot As Boolean = True) As Boolean
+  Depth = 1
+  Return Execute(Path, CleanRoot)
+End
+
+Private Function Execute(Path As String, Optional CleanRoot As Boolean = True) As Boolean
+  If IsDir(Path) Then
+    Inc Depth
+
+    If Not Clean_Files_From(Path) Or Not Clean_Directories_From(Path) Then
+      Return False
+    Endif
+
+    Dec Depth
+
+    If CleanRoot And Depth = 1 Then
+      Try Rmdir Path
+    Endif
+
+    Return True
+  Else
+    Try Kill Path
+
+    If Error Then
+      Message.Error(Error.Code & " - " & Error.Text)
+      Return False
+    Else
+      Return True
+    Endif
+  Endif
+End

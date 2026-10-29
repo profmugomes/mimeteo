@@ -6,6 +6,12 @@
   Text = ("MiMeteo")
   Icon = Picture["mimeteo.png"]
   Resizable = False
+  { mnuCache Menu
+    Text = ("Cache")
+    { mnuCleanCache Menu
+      Text = ("Limpar")
+    }
+  }
   { Menu1 Menu
     Text = ("Sobre")
     { mnuSupport Menu
@@ -55,5 +61,19 @@
       MoveScaled(1,1,73,36)
     }
     Index = 0
+  }
+  { pBar1 Panel
+    MoveScaled(49,19.5,26,5)
+    Visible = False
+    { ProgressBar1 ProgressBar
+      MoveScaled(0,2,26,3)
+      Pulse = True
+    }
+    { Label3 Label
+      MoveScaled(0,2,26,3)
+      Font = Font["Bold,9"]
+      Alignment = Align.Center
+      Text = ("Verificando") & "..."
+    }
   }
 }

@@ -5,16 +5,22 @@
 
 ' Site: https://www.profmugomes.com.br
 
+Public pathCache As String = User.Home & "/.config/mimeteo/cache"
+
 Private Sub AtivaDesativa()
-  
+  Wait 1
   cboEstado.Enabled = Not cboEstado.Enabled
   cboCidade.Enabled = Not cboCidade.Enabled
   btnVerificar.Enabled = Not btnVerificar.Enabled
-  
+  pBar1.Visible = Not pBar1.Visible
+  Wait 1
 End
 
-
 Public Sub Form_Open()
+
+  If Not Exist(pathCache) Then
+    Shell "mkdir -p \"" & pathCache & "\"" Wait
+  Endif
 
   Dim lstEstados As Variant = modIBGE.getListaEstados()
   
@@ -117,4 +123,11 @@ Public Sub mnuAbout_Click()
 
   FAbout.ShowDialog()
 
+End
+
+Public Sub mnuCleanCache_Click()
+  
+  'Shell "rm -f \"" & FMain.pathCache & "/*" & "\""
+
+  modRemoveFiles.Clean(FMain.pathCache, False)
 End

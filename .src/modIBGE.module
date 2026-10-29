@@ -8,20 +8,27 @@
 Public Function getListaEstados() As Variant
   
   Dim sBuffer As String
-  Dim c As New HttpClient
   
-  c.URL = "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
-  c.Async = False
-  c.Timeout = 60
-  Try c.Get()
-  
-  If Lof(c) Then sBuffer = Read #c, Lof(c)
-  
-  If sBuffer = "" Then 
-    Message.Error("Não foi possível se comunicar com a API do IBGE!")
-  Endif  
-  
-  c.Close()
+  If Exist(FMain.pathCache & "/estados.json") Then
+    sBuffer = File.Load(FMain.pathCache & "/estados.json")
+  Else
+    Dim c As New HttpClient
+    
+    c.URL = "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+    c.Async = False
+    c.Timeout = 60
+    Try c.Get()
+    
+    If Lof(c) Then sBuffer = Read #c, Lof(c)
+    
+    If sBuffer = "" Then 
+      Message.Error("Não foi possível se comunicar com a API do IBGE!")
+    Endif  
+    
+    c.Close()
+    
+    File.Save(FMain.pathCache & "/estados.json", sBuffer)
+  Endif
 
   Return JSON.Decode(sBuffer)
   
@@ -30,20 +37,27 @@ End
 Public Function getListaCidades(estado As String) As Variant
   
   Dim sBuffer As String
-  Dim c As New HttpClient
   
-  c.URL = Subst("https://servicodados.ibge.gov.br/api/v1/localidades/estados/&1/municipios", estado)
-  c.Async = False
-  c.Timeout = 60
-  Try c.Get()
-  
-  If Lof(c) Then sBuffer = Read #c, Lof(c)
-  
-  If sBuffer = "" Then 
-    Message.Error("Não foi possível se comunicar com a API do IBGE!")
+  If Exist(FMain.pathCache & Subst("/cidades_&1.json", estado)) Then
+    sBuffer = File.Load(FMain.pathCache & Subst("/cidades_&1.json", estado))
+  Else
+    Dim c As New HttpClient
+    
+    c.URL = Subst("https://servicodados.ibge.gov.br/api/v1/localidades/estados/&1/municipios", estado)
+    c.Async = False
+    c.Timeout = 60
+    Try c.Get()
+    
+    If Lof(c) Then sBuffer = Read #c, Lof(c)
+    
+    If sBuffer = "" Then 
+      Message.Error("Não foi possível se comunicar com a API do IBGE!")
+    Endif
+    
+    c.Close()
+    
+    File.Save(FMain.pathCache & Subst("/cidades_&1.json", estado), sBuffer)
   Endif
-  
-  c.Close()
   
   Return JSON.Decode(sBuffer)
   
@@ -52,26 +66,32 @@ End
 Public Function getLocalizacao(municipioID As Integer) As String[]
   
   Dim sBuffer As String
-  Dim c As New HttpClient
   Dim data As Variant
-  
   Dim coords As New String[]
   
-  c.URL = Subst("https://servicodados.ibge.gov.br/api/v4/malhas/municipios/&1/metadados", municipioID)
-  c.Async = False
-  c.Timeout = 60
-  Try c.Get()
+  If Exist(FMain.pathCache & Subst("/metadados_&1.json", municipioID)) Then
+    sBuffer = File.Load(FMain.pathCache & Subst("/metadados_&1.json", municipioID))
+  Else
+    Dim c As New HttpClient
+    
+    c.URL = Subst("https://servicodados.ibge.gov.br/api/v4/malhas/municipios/&1/metadados", municipioID)
+    c.Async = False
+    c.Timeout = 60
+    Try c.Get()
+    
+    If Lof(c) Then sBuffer = Read #c, Lof(c)
+    
+    If sBuffer = "" Then 
+      Message.Error("Não foi possível se comunicar com a API do IBGE!")
+    Endif
+    
+    c.Close()
   
-  If Lof(c) Then sBuffer = Read #c, Lof(c)
-  
-  If sBuffer = "" Then 
-    Message.Error("Não foi possível se comunicar com a API do IBGE!")
+    File.Save(FMain.pathCache & Subst("/metadados_&1.json", municipioID), sBuffer)
   Endif
   
-  c.Close()
-  
   data = JSON.Decode(sBuffer)
-  
+
   coords.Add(data[0]["centroide"]["latitude"])
   coords.Add(data[0]["centroide"]["longitude"])
   
