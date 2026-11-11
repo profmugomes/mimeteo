@@ -126,8 +126,5 @@ Public Sub mnuAbout_Click()
 End
 
 Public Sub mnuCleanCache_Click()
-  
-  'Shell "rm -f \"" & FMain.pathCache & "/*" & "\""
-
   modRemoveFiles.Clean(FMain.pathCache, False)
 End
