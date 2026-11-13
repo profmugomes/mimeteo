@@ -95,6 +95,10 @@ Public Sub btnVerificar_Click()
   Next
   
   AtivaDesativa()
+  
+  Catch 
+    Message.Error("Verifique se preencheu as informações corretamente!" & gb.NewLine & "API pode estar fora do ar.")
+    AtivaDesativa()
 End
 
 Public Sub cboCidade_Click()
