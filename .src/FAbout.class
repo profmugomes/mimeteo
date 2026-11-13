@@ -6,10 +6,8 @@
 ' Site: https://www.profmugomes.com.br
 
 Public Sub URLLabel1_Click()
-  
-  Dim sTerm As String
-  
-  Shell "xdg-open \"https://www.profmugomes.com.br\"" To sTerm
+
+  Shell "xdg-open \"https://www.profmugomes.com.br\""
   
 End
 

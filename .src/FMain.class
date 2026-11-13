@@ -17,7 +17,6 @@ Private Sub AtivaDesativa()
 End
 
 Public Sub Form_Open()
-
   If Not Exist(pathCache) Then
     Shell "mkdir -p \"" & pathCache & "\"" Wait
   Endif
@@ -116,11 +115,7 @@ End
 
 
 Public Sub mnuSupport_Click()
-
-  Dim sResult As String
-  
-  Shell "xdg-open \"https://github.com/sponsors/profmugomes\"" To sResult
-
+  Shell "xdg-open \"https://github.com/sponsors/profmugomes\""
 End
 
 Public Sub mnuAbout_Click()
