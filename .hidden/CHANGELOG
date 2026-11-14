@@ -1,3 +1,9 @@
+* Fri Nov 13 2026 Murilo Gomes <profmugomes@gmail.com> 3.0.13
+- Ajustado para não consultar a API duas vezes no OpenMeteo
+- Removido consultas de API não utilizadas no software
+- Adicionado item de chuva
+- Alterado o bytecode para suporte Ubuntu 24.04 LTS
+
 * Wed Nov 11 2026 Murilo Gomes <profmugomes@gmail.com> 3.0.12
 - Ajustado para funcionar com as dependencias do Gambas 3.20, compatível com a versão disponível no repositório do Lubuntu 26.04.
 - Adicionado dependencia requerida (gambas3-gb-gtk3-x11) no pacote deb.
