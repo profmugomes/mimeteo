@@ -2,6 +2,10 @@
 
 MiMeteo é um software para ver a previsão do tempo no Brasil através das APIs do IBGE e Open-Meteo.
 
+## Apoie
+
+* https://github.com/sponsors/profmugomes
+
 ## Informações
 
  - [Repositório MiMeteo](https://github.com/profmugomes/mimeteo)
@@ -10,9 +14,9 @@ MiMeteo é um software para ver a previsão do tempo no Brasil através das APIs
 
 ### Linux
 
-- Ubuntu 24.04 LTS ou superior
+- Lubuntu 24.04 LTS ou superior
 
-No Ubuntu 24.04 requer o gambas3-gb-gtk3-x11.
+No Lubuntu 24.04 requer o gambas3-gb-gtk3-x11.
 
 ## 👤 Autor
 
