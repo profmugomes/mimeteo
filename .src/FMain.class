@@ -23,17 +23,19 @@ Public Sub Form_Open()
 
   Dim lstEstados As Variant = modIBGE.getListaEstados()
   
-  cv1.Columns.Count = 3
+  cv1.Columns.Count = 4
   cv1.Columns[0].Text = "Dia"
   cv1.Columns[1].Text = "Temperatura"
   cv1.Columns[2].Text = "Vento"
+  cv1.Columns[3].Text = "Chuva"
   cv1.Header = True
   
-  cv2.Columns.Count = 4
+  cv2.Columns.Count = 5
   cv2.Columns[0].Text = "Dias"
   cv2.Columns[1].Text = "Temperatura"  
   cv2.Columns[2].Text = "Vento"
   cv2.Columns[3].Text = "Neve"
+  cv2.Columns[4].Text = "Chuva"
   cv2.Header = True
     
   If TypeOf(lstEstados) = gb.Object Then 
@@ -70,10 +72,11 @@ End
 Public Sub btnVerificar_Click()
 
   AtivaDesativa()
-  
+
   Dim coords As String[] = modIBGE.getLocalizacao(aCidades[cboCidade.Text])
-  Dim clima As String[] = modMeteo.ClimaAtual(modMeteo.getBuscarClima(coords[0], coords[1]))
-  Dim previsaoDiaria As String[] = modMeteo.PrevisaoDiaria(modMeteo.getBuscarClima(coords[0], coords[1]), 5)
+  Dim buscarClima As Variant = modMeteo.getBuscarClima(coords[0], coords[1])
+  Dim clima As String[] = modMeteo.ClimaAtual(buscarClima)
+  Dim previsaoDiaria As String[] = modMeteo.PrevisaoDiaria(buscarClima, 5)
   
   cv1.Clear()
   cv2.Clear()
@@ -81,6 +84,7 @@ Public Sub btnVerificar_Click()
   cv1.Add(clima[0], clima[0] & Space(10))
   cv1[clima[0]][1] = clima[1]
   cv1[clima[0]][2] = clima[2]
+  cv1[clima[0]][3] = clima[3]
   
   Dim part As String[]
   For Each previsao As String In previsaoDiaria
@@ -91,6 +95,7 @@ Public Sub btnVerificar_Click()
     cv2[part[0]][1] = part[1] & " / " & part[2] & Space(10)
     cv2[part[0]][2] = part[3] & Space(10)
     cv2[part[0]][3] = part[4]
+    cv2[part[0]][4] = part[5]
   Next
   
   AtivaDesativa()
